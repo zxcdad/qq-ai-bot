@@ -1,0 +1,30 @@
+
+name: QQ AI Bot Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Download project
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start QQ Bot
+        env:
+          QQ_APP_ID: ${{ secrets.QQ_APP_ID }}
+          QQ_APP_SECRET: ${{ secrets.QQ_APP_SECRET }}
+        run: python -u bot.py
